@@ -7,9 +7,12 @@ import model.SQLite.*;
 import view.*;
 import model.dbconnection;
 
+import static model.dbconnection.closeCon;
+import static model.dbconnection.openCon;
+
 public class Main {
     public static void main(String[] args) {
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:db/pokeapiDB.db");
+        try (Connection connection = openCon("jdbc:sqlite:db/pokeapiDB.db");
              Scanner scan = new Scanner(System.in)) {
 
             SQLiteAbilityDAO abilityDAO = new SQLiteAbilityDAO();
@@ -32,6 +35,9 @@ public class Main {
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            System.out.println("Programa finalitzat.");
+            System.out.println("Connexió amb la base de dades finalitzada.");
         }
     }
 }
