@@ -56,7 +56,7 @@ public class SQLiteAbilityDAO implements DAO<Ability, Integer> {
             stmt.setString(2, ability.getEfecte());
             stmt.setInt(3, ability.getId_habilitat());
             stmt.executeUpdate();
-            if (stmt.getUpdateCount() == 0) {
+            if (stmt.getUpdateCount() == -1) {
                 throw new PropertyNotFound("No existe la habilidad con ID " + ability.getId_habilitat());
             }
         } catch (PropertyNotFound e) {
