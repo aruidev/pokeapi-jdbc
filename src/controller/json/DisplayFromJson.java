@@ -20,7 +20,7 @@ public class DisplayFromJson {
         String[] files = jsonFileReader.listAllPokemonFiles(basePath);
 
         if (files.length == 0) {
-            System.out.println("No se encontraron archivos de pokémon en " + basePath);
+            System.out.println("No s'han trobat arxius json de pokemon a " + basePath);
             return;
         }
 
@@ -28,7 +28,7 @@ public class DisplayFromJson {
         System.out.println("--------------------------------------------------");
 
         for (String file : files) {
-            // Extraer ID del nombre del archivo (pokemon_X.json)
+            // Extreure id del nom de l'arxiu (pokemon_X.json)
             int id = Integer.parseInt(file.substring(8, file.length() - 5));
             JsonObject pokemon = jsonFileReader.getPokemonInfo(basePath, id);
 
