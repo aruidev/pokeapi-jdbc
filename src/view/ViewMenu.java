@@ -5,11 +5,11 @@ public class ViewMenu {
         System.out.println("--------------------------------");
         System.out.println("Menú principal:");
         System.out.println();
-        System.out.println("1. Llistar pokemons");
-        System.out.println("2. Mostrar el contingut de l'Endpoint");
+        System.out.println("1. Mostrar contingut de DB local");
+        System.out.println("2. Mostrar contingut de l'Endpoint");
         System.out.println("3. Modificar pokemons segons l’Endpoint");
         System.out.println("4. Còpia de les dades obtingudes de l’Endpoint");
-        System.out.println("5. Mostrar el contingut del JSON");
+        System.out.println("5. Mostrar contingut del JSON");
         System.out.println("6. Modificar pokemons segons el JSON");
         System.out.println("7. Còpia de les dades obtingudes del JSON");
         System.out.println("0. Sortir");
@@ -22,7 +22,7 @@ public class ViewMenu {
         System.out.println("Llistat de pokemons:");
         System.out.println();
         System.out.println("1. Llistar tots els pokemons");
-        System.out.println("Veure detalls de...");
+        System.out.println("    Veure detalls de...");
         System.out.println("2. ...pokemon");
         System.out.println("3. ...habilitat");
         System.out.println("4. ...tipus de pokemon");
