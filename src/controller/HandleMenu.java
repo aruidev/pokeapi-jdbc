@@ -40,57 +40,6 @@ package controller;
                 } while (option != 0);
             }
 
-            private void handleEndpointMenu() {
-                int option;
-                do {
-                    viewMenu.displayPokemonListMenu(); // Reutilizamos el mismo menú
-                    option = readOption();
-                    switch (option) {
-                        case 1 -> {
-                            System.out.println("\nLlistat de tots els pokemons de l'API:");
-                            displayFromApi.listAllPokemons();
-                        }
-                        case 2 -> {
-                            System.out.print("\nIntrodueix l'ID del Pokemon: ");
-                            int id = readOption();
-                            displayFromApi.showPokemonDetails(id);
-                        }
-                        case 3 -> {
-                            System.out.print("\nIntrodueix l'ID de l'habilitat: ");
-                            int id = readOption();
-                            displayFromApi.showAbilityDetails(id);
-                        }
-                        case 4 -> {
-                            System.out.print("\nIntrodueix l'ID del tipus: ");
-                            int id = readOption();
-                            displayFromApi.showTypeDetails(id);
-                        }
-                        case 5 -> {
-                            System.out.print("\nIntrodueix l'ID del moviment: ");
-                            int id = readOption();
-                            displayFromApi.showMoveDetails(id);
-                        }
-                        case 6 -> {
-                            System.out.print("\nIntrodueix l'ID de la generació: ");
-                            int id = readOption();
-                            displayFromApi.showGenerationDetails(id);
-                        }
-                        case 7 -> {
-                            System.out.print("\nIntrodueix l'ID de la localització: ");
-                            int id = readOption();
-                            displayFromApi.showLocationDetails(id);
-                        }
-                        case 8 -> {
-                            System.out.print("\nIntrodueix l'ID de la regió: ");
-                            int id = readOption();
-                            displayFromApi.showRegionDetails(id);
-                        }
-                        case 0 -> System.out.println("Tornant al menú principal...");
-                        default -> System.out.println("Entrada no vàlida. Introdueix la opció de nou.");
-                    }
-                } while (option != 0);
-            }
-
             private void handlePokemonListMenu() {
                 int option;
                 do {
@@ -135,6 +84,58 @@ package controller;
                             System.out.print("\nIntrodueix l'ID de la regió: ");
                             int id = readOption();
                             controller.showRegionDetails(id);
+                        }
+                        case 0 -> System.out.println("Tornant al menú principal...");
+                        default -> System.out.println("Entrada no vàlida. Introdueix la opció de nou.");
+                    }
+                } while (option != 0);
+            }
+
+
+            private void handleEndpointMenu() {
+                int option;
+                do {
+                    viewMenu.displayPokemonListMenu(); // Reutilizamos el mismo menú
+                    option = readOption();
+                    switch (option) {
+                        case 1 -> {
+                            System.out.println("\nLlistat de tots els pokemons de l'API:");
+                            displayFromApi.listAllPokemons();
+                        }
+                        case 2 -> {
+                            System.out.print("\nIntrodueix l'ID del Pokemon: ");
+                            int id = readOption();
+                            displayFromApi.showPokemonDetails(id);
+                        }
+                        case 3 -> {
+                            System.out.print("\nIntrodueix l'ID de l'habilitat: ");
+                            int id = readOption();
+                            displayFromApi.showAbilityDetails(id);
+                        }
+                        case 4 -> {
+                            System.out.print("\nIntrodueix l'ID del tipus: ");
+                            int id = readOption();
+                            displayFromApi.showTypeDetails(id);
+                        }
+                        case 5 -> {
+                            System.out.print("\nIntrodueix l'ID del moviment: ");
+                            int id = readOption();
+                            displayFromApi.showMoveDetails(id);
+                        }
+                        case 6 -> {
+                            System.out.print("\nIntrodueix l'ID de la generació: ");
+                            int id = readOption();
+                            displayFromApi.showGenerationDetails(id);
+                        }
+                        case 7 -> {
+                            System.out.print("\nIntrodueix l'ID de la localització: ");
+                            int id = readOption();
+                            displayFromApi.showLocationDetails(id);
+                        }
+                        case 8 -> {
+                            System.out.print("\nIntrodueix l'ID de la regió: ");
+                            int id = readOption();
+                            displayFromApi.showRegionDetails(id);
                         }
                         case 0 -> System.out.println("Tornant al menú principal...");
                         default -> System.out.println("Entrada no vàlida. Introdueix la opció de nou.");
