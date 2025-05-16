@@ -1,6 +1,6 @@
 package model.SQLite;
 
-import Exceptions.PropertyNotFound;
+import Exceptions.*;
 import model.constructor.Type;
 import model.dao.DAO;
 
@@ -15,6 +15,15 @@ public class SQLiteTypeDAO implements DAO<Type, Integer> {
 
     @Override
     public void insertTable(Type type) {
+        if (type.getNom() == null) {
+            throw new InvalidDataException("No se puede insertar un tipo nulo o sin nombre");
+        }
+        if (type.getId_tipus() <= 0) {
+            throw new InvalidDataException("No se puede insertar un tipo con ID menor o igual a 0");
+        }
+        if (type.getRelacions_dany() == null) {
+            throw new InvalidDataException("No se puede insertar un tipo sin relaciones de daño");
+        }
         String sql = "INSERT INTO tipus (id_tipus, nom, relacions_dany) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, type.getId_tipus());
@@ -22,7 +31,10 @@ public class SQLiteTypeDAO implements DAO<Type, Integer> {
             stmt.setString(3, type.getRelacions_dany());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getMessage().contains("UNIQUE constraint failed")) {
+                throw new DuplicateEntryException("Ya existe un tipo con ID " + type.getId_tipus());
+            }
+            throw new DataAccessException("Error during database operation", e);
         }
     }
 
@@ -49,6 +61,12 @@ public class SQLiteTypeDAO implements DAO<Type, Integer> {
 
     @Override
     public void updateTable(Type type) {
+        if (type.getNom() == null) {
+            throw new InvalidDataException("No se puede actualizar un tipo nulo o sin nombre");
+        }
+        if (type.getRelacions_dany() == null) {
+            throw new InvalidDataException("No se puede insertar un tipo sin relaciones de daño");
+        }
         String sql = "UPDATE tipus SET nom = ?, relacions_dany = ? WHERE id_tipus = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, type.getNom());
@@ -61,7 +79,10 @@ public class SQLiteTypeDAO implements DAO<Type, Integer> {
         } catch (PropertyNotFound e) {
             System.err.println("Error al actualizar el tipo: " + e.getMessage());
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getMessage().contains("UNIQUE constraint failed")) {
+                throw new DuplicateEntryException("Ya existe un tipo con ID " + type.getId_tipus());
+            }
+            throw new DataAccessException("Error during database operation", e);
         }
     }
 
@@ -77,7 +98,10 @@ public class SQLiteTypeDAO implements DAO<Type, Integer> {
         } catch (PropertyNotFound e) {
             System.err.println("Error al eliminar el tipo: " + e.getMessage());
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getMessage().contains("FOREIGN KEY constraint failed")) {
+                throw new ForeignKeyConstraintException("No se puede eliminar el tipo con ID " + id + " porque está referenciado por otra tabla.");
+            }
+            throw new DataAccessException("Error during database operation", e);
         }
     }
 
@@ -86,6 +110,9 @@ public class SQLiteTypeDAO implements DAO<Type, Integer> {
         String sql = "SELECT * FROM tipus";
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
+            if (!rs.isBeforeFirst()) { // Check if the result set is empty
+                throw new EmptyResultSetException("Ningún tipo encontrado en la base de datos.");
+            }
             System.out.printf("%-5s %-20s %-30s%n", "ID", "Nom", "Relacions Dany");
             System.out.println("-------------------------------------------------------------");
             while (rs.next()) {
@@ -94,8 +121,10 @@ public class SQLiteTypeDAO implements DAO<Type, Integer> {
                         rs.getString("nom"),
                         rs.getString("relacions_dany"));
             }
+        } catch (EmptyResultSetException e) {
+            System.err.println(e.getMessage());
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataAccessException("Error during database operation", e);
         }
     }
 }

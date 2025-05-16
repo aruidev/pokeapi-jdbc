@@ -1,6 +1,6 @@
 package model.SQLite;
 
-import Exceptions.PropertyNotFound;
+import Exceptions.*;
 import model.constructor.Move;
 import model.dao.DAO;
 
@@ -15,6 +15,24 @@ public class SQLiteMoveDAO implements DAO<Move, Integer> {
 
     @Override
     public void insertTable(Move move) {
+        if (move.getNom() == null) {
+            throw new InvalidDataException("No se puede insertar un movimiento nulo o sin nombre");
+        }
+        if (move.getId_move() <= 0) {
+            throw new InvalidDataException("No se puede insertar un movimiento con ID menor o igual a 0");
+        }
+        if (move.getPoder() <= 0) {
+            throw new InvalidDataException("No se puede insertar un movimiento con poder menor o igual a 0");
+        }
+        if (move.getPrecisio() <= 0) {
+            throw new InvalidDataException("No se puede insertar un movimiento con precisión menor o igual a 0");
+        }
+        if (move.getPp() <= 0) {
+            throw new InvalidDataException("No se puede insertar un movimiento con PP menor o igual a 0");
+        }
+        if (move.getTipus() == null) {
+            throw new InvalidDataException("No se puede insertar un movimiento con tipo nulo");
+        }
         String sql = "INSERT INTO moviments (id_moviment, nom, poder, precisio, pp, tipus) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, move.getId_move());
@@ -25,7 +43,10 @@ public class SQLiteMoveDAO implements DAO<Move, Integer> {
             stmt.setString(6, move.getTipus());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getMessage().contains("UNIQUE constraint failed")) {
+                throw new DuplicateEntryException("Ya existe un movimiento con ID " + move.getId_move());
+            }
+            throw new DataAccessException("Error during database operation", e);
         }
     }
 
@@ -55,6 +76,21 @@ public class SQLiteMoveDAO implements DAO<Move, Integer> {
 
     @Override
     public void updateTable(Move move) {
+        if (move.getNom() == null) {
+            throw new InvalidDataException("No se puede actualizar un movimiento nulo o sin nombre");
+        }
+        if (move.getPoder() <= 0) {
+            throw new InvalidDataException("No se puede insertar un movimiento con poder menor o igual a 0");
+        }
+        if (move.getPrecisio() <= 0) {
+            throw new InvalidDataException("No se puede insertar un movimiento con precisión menor o igual a 0");
+        }
+        if (move.getPp() <= 0) {
+            throw new InvalidDataException("No se puede insertar un movimiento con PP menor o igual a 0");
+        }
+        if (move.getTipus() == null) {
+            throw new InvalidDataException("No se puede insertar un movimiento con tipo nulo");
+        }
         String sql = "UPDATE moviments SET nom = ?, poder = ?, precisio = ?, pp = ?, tipus = ? WHERE id_moviment = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, move.getNom());
@@ -70,7 +106,10 @@ public class SQLiteMoveDAO implements DAO<Move, Integer> {
         } catch (PropertyNotFound e) {
             System.err.println("Error al actualizar el movimiento: " + e.getMessage());
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getMessage().contains("UNIQUE constraint failed")) {
+                throw new DuplicateEntryException("Ya existe un movimiento con ID " + move.getId_move());
+            }
+            throw new DataAccessException("Error during database operation", e);
         }
     }
 
@@ -86,7 +125,10 @@ public class SQLiteMoveDAO implements DAO<Move, Integer> {
         } catch (PropertyNotFound e) {
             System.err.println("Error al eliminar el movimiento: " + e.getMessage());
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getMessage().contains("FOREIGN KEY constraint failed")) {
+                throw new ForeignKeyConstraintException("No se puede eliminar el movimiento con ID " + id + " porque está referenciado por otra tabla.");
+            }
+            throw new DataAccessException("Error during database operation", e);
         }
     }
 
@@ -95,6 +137,9 @@ public class SQLiteMoveDAO implements DAO<Move, Integer> {
         String sql = "SELECT * FROM moviments";
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
+            if (!rs.isBeforeFirst()) { // Check if the result set is empty
+                throw new EmptyResultSetException("Ningún movimiento encontrado en la base de datos.");
+            }
             System.out.printf("%-5s %-20s %-10s %-10s %-5s %-10s%n", "ID", "Nom", "Poder", "Precisio", "PP", "Tipus");
             System.out.println("-------------------------------------------------------------");
             while (rs.next()) {
@@ -106,8 +151,10 @@ public class SQLiteMoveDAO implements DAO<Move, Integer> {
                         rs.getInt("pp"),
                         rs.getString("tipus"));
             }
+        } catch (EmptyResultSetException e) {
+            System.err.println(e.getMessage());
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataAccessException("Error during database operation", e);
         }
     }
 }

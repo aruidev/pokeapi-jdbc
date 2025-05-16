@@ -1,7 +1,6 @@
 package model.SQLite;
 
-import Exceptions.DBNotFound;
-import Exceptions.PropertyNotFound;
+import Exceptions.*;
 import model.constructor.Generation;
 import model.dao.DAO;
 
@@ -16,6 +15,12 @@ public class SQLiteGenerationDAO implements DAO<Generation, Integer> {
 
     @Override
     public void insertTable(Generation generation) {
+        if (generation.getNom() == null) {
+            throw new InvalidDataException("No se puede insertar una generación nula o sin nombre");
+        }
+        if (generation.getId_generation() <= 0) {
+            throw new InvalidDataException("No se puede insertar una generación con ID menor o igual a 0");
+        }
         String sql = "INSERT INTO generacions (id_generacio, nom, id_regio) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, generation.getId_generation());
@@ -23,7 +28,10 @@ public class SQLiteGenerationDAO implements DAO<Generation, Integer> {
             stmt.setString(3, generation.getId_regio());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getMessage().contains("UNIQUE constraint failed")) {
+                throw new DuplicateEntryException("Ya existe una generación con ID " + generation.getId_generation());
+            }
+            throw new DataAccessException("Error during database operation", e);
         }
     }
 
@@ -50,6 +58,9 @@ public class SQLiteGenerationDAO implements DAO<Generation, Integer> {
 
     @Override
     public void updateTable(Generation generation) {
+        if (generation.getNom() == null) {
+            throw new InvalidDataException("No se puede actualizar una generación nula o sin nombre");
+        }
         String sql = "UPDATE generacions SET nom = ?, id_regio = ? WHERE id_generacio = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, generation.getNom());
@@ -62,7 +73,10 @@ public class SQLiteGenerationDAO implements DAO<Generation, Integer> {
         } catch (PropertyNotFound e) {
             System.err.println("Error al actualizar la generación: " + e.getMessage());
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getMessage().contains("UNIQUE constraint failed")) {
+                throw new DuplicateEntryException("Ya existe una generación con ID " + generation.getId_generation());
+            }
+            throw new DataAccessException("Error during database operation", e);
         }
     }
 
@@ -78,7 +92,10 @@ public class SQLiteGenerationDAO implements DAO<Generation, Integer> {
         } catch (PropertyNotFound e) {
             System.err.println("Error al eliminar la generación: " + e.getMessage());
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getMessage().contains("FOREIGN KEY constraint failed")) {
+                throw new ForeignKeyConstraintException("No se puede eliminar la generación con ID " + id + " porque está en uso.");
+            }
+            throw new DataAccessException("Error during database operation", e);
         }
     }
 
@@ -87,6 +104,9 @@ public class SQLiteGenerationDAO implements DAO<Generation, Integer> {
         String sql = "SELECT * FROM generacions";
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
+            if (!rs.isBeforeFirst()) { // Check if the result set is empty
+                throw new EmptyResultSetException("Ninguna generación encontrada en la base de datos.");
+            }
             System.out.printf("%-5s %-20s %-20s%n", "ID", "Nom", "ID_Regio");
             System.out.println("---------------------------------------------");
             while (rs.next()) {
@@ -95,8 +115,10 @@ public class SQLiteGenerationDAO implements DAO<Generation, Integer> {
                         rs.getString("nom"),
                         rs.getString("id_regio"));
             }
+        } catch (EmptyResultSetException e) {
+            System.err.println(e.getMessage());
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataAccessException("Error during database operation", e);
         }
     }
 }
