@@ -55,7 +55,7 @@ public class JsonFileReader {
     public JsonObject getAbilityInfo(String basePath, int id) {
         String filePath = basePath + "/ability_" + id + ".json";
         if (!fileExists(filePath)) {
-            System.err.println("El archivo " + filePath + " no existe");
+            System.err.println("L'arxiu " + filePath + " no existeix");
             return null;
         }
         return readJsonFile(filePath);
@@ -67,7 +67,7 @@ public class JsonFileReader {
     public JsonObject getTypeInfo(String basePath, int id) {
         String filePath = basePath + "/type_" + id + ".json";
         if (!fileExists(filePath)) {
-            System.err.println("El archivo " + filePath + " no existe");
+            System.err.println("L'arxiu " + filePath + " no existeix");
             return null;
         }
         return readJsonFile(filePath);
@@ -79,7 +79,7 @@ public class JsonFileReader {
     public JsonObject getMoveInfo(String basePath, int id) {
         String filePath = basePath + "/move_" + id + ".json";
         if (!fileExists(filePath)) {
-            System.err.println("El archivo " + filePath + " no existe");
+            System.err.println("L'arxiu " + filePath + " no existeix");
             return null;
         }
         return readJsonFile(filePath);
@@ -91,7 +91,7 @@ public class JsonFileReader {
     public JsonObject getGenerationInfo(String basePath, int id) {
         String filePath = basePath + "/generation_" + id + ".json";
         if (!fileExists(filePath)) {
-            System.err.println("El archivo " + filePath + " no existe");
+            System.err.println("L'arxiu " + filePath + " no existeix");
             return null;
         }
         return readJsonFile(filePath);
@@ -103,7 +103,7 @@ public class JsonFileReader {
     public JsonObject getLocationInfo(String basePath, int id) {
         String filePath = basePath + "/location_" + id + ".json";
         if (!fileExists(filePath)) {
-            System.err.println("El archivo " + filePath + " no existe");
+            System.err.println("L'arxiu " + filePath + " no existeix");
             return null;
         }
         return readJsonFile(filePath);
@@ -115,7 +115,7 @@ public class JsonFileReader {
     public JsonObject getRegionInfo(String basePath, int id) {
         String filePath = basePath + "/region_" + id + ".json";
         if (!fileExists(filePath)) {
-            System.err.println("El archivo " + filePath + " no existe");
+            System.err.println("L'arxiu " + filePath + " no existeix");
             return null;
         }
         return readJsonFile(filePath);
