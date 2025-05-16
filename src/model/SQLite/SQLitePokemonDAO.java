@@ -36,7 +36,7 @@ public class SQLitePokemonDAO implements DAO<Pokemon, Integer> {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                System.out.printf("%-5s %-20s %-10s %-10s %-15s %-10s%n", "ID", "Nom", "Pes", "Altura", "Generacio", "Tipus");
+                System.out.printf("%-5s %-20s %-10s %-10s %-15s %-10s%n", "ID", "Nom", "Pes", "Altura", "ID Generacio", "ID Tipus");
                 System.out.println("-------------------------------------------------------------");
                 System.out.printf("%-5d %-20s %-10d %-10d %-15d %-10d%n",
                         rs.getInt("id_pokemon"),
@@ -65,10 +65,10 @@ public class SQLitePokemonDAO implements DAO<Pokemon, Integer> {
             stmt.setInt(6, pokemon.getId_pokemon());
             stmt.executeUpdate();
             if (stmt.getUpdateCount() == -1) {
-                throw new PropertyNotFound("No existe el Pokémon con ID " + pokemon.getId_pokemon());
+                throw new PropertyNotFound("No existeix el Pokemon amb ID " + pokemon.getId_pokemon());
             }
         } catch (PropertyNotFound e) {
-            System.err.println("Error al actualizar el Pokémon: " + e.getMessage());
+            System.err.println("Error al actualitzar el Pokemon: " + e.getMessage());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -95,7 +95,7 @@ public class SQLitePokemonDAO implements DAO<Pokemon, Integer> {
         String sql = "SELECT * FROM pokemons";
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
-            System.out.printf("%-5s %-20s %-10s %-10s %-15s %-10s%n", "ID", "Nom", "Pes", "Altura", "Generacio", "Tipus");
+            System.out.printf("%-5s %-20s %-10s %-10s %-15s %-10s%n", "ID", "Nom", "Pes", "Altura", "ID Generacio", "ID Tipus");
             System.out.println("-------------------------------------------------------------");
             while (rs.next()) {
                 System.out.printf("%-5d %-20s %-10d %-10d %-15d %-10d%n",
