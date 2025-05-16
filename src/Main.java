@@ -1,14 +1,11 @@
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.Scanner;
 
+import controller.apicontroller.DisplayFromApi;
 import controller.Controller;
 import controller.HandleMenu;
 import model.SQLite.*;
-import view.*;
-import model.dbconnection;
 
-import static model.dbconnection.closeCon;
 import static model.dbconnection.openCon;
 
 public class Main {
@@ -34,7 +31,10 @@ public class Main {
 
             Controller controller = new Controller(abilityDAO, generationDAO, locationDAO,
                                                  moveDAO, pokemonDAO, regionDAO, typeDAO);
-            HandleMenu menu = new HandleMenu(controller);
+
+            DisplayFromApi displayFromApi = new DisplayFromApi();
+
+            HandleMenu menu = new HandleMenu(controller, displayFromApi);
             menu.start();
 
         } catch (Exception e) {
