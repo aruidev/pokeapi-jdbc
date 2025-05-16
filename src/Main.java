@@ -2,6 +2,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Scanner;
 
+import controller.Controller;
 import controller.HandleMenu;
 import model.SQLite.*;
 import view.*;
@@ -31,7 +32,10 @@ public class Main {
             regionDAO.setConnection(connection);
             typeDAO.setConnection(connection);
 
-            HandleMenu menu = new HandleMenu();
+            Controller controller = new Controller(abilityDAO, generationDAO, locationDAO,
+                                                 moveDAO, pokemonDAO, regionDAO, typeDAO);
+            HandleMenu menu = new HandleMenu(controller);
+            menu.start();
 
         } catch (Exception e) {
             e.printStackTrace();
