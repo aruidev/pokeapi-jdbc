@@ -123,7 +123,7 @@ Custom exceptions are used:
 - `PropertyNotFound`: For when a property or record is not found.
 - `DataAccessException`: For general data access issues.
 - `DuplicateEntryException`: For duplicate entries in the database.
-- 'EmptyResultSetException': For empty result sets from queries.
+- `EmptyResultSetException`: For empty result sets from queries.
 - `ForeignKeyConstraintException`: For foreign key constraint violations.
 - `InvalidDataException`: For invalid data formats or values.
 
