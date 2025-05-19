@@ -12,14 +12,17 @@ public class DisplayFromApi {
         this.apiClient = new PokeApiClient();
     }
 
-    // Mètode per llistar tots els pokemons desde la API amb limit
-    public void listAllPokemons() {
-        JsonObject response = apiClient.listPokemons(20, 0);
+    // Mètode per llistar tots els pokemons desde la API amb limit i suport per paginació
+    public void listAllPokemons(int page) {
+        int limit = 20;
+        int offset = (page - 1) * limit;
+
+        JsonObject response = apiClient.listPokemons(limit, offset);
         if (response != null) {
             JsonArray results = response.getAsJsonArray("results");
             System.out.printf("%-5s %-20s %-30s%n", "Núm.", "Nom", "URL");
             System.out.println("-------------------------------------------------------------");
-            int count = 1;
+            int count = offset + 1;
             for (JsonElement element : results) {
                 JsonObject pokemon = element.getAsJsonObject();
                 System.out.printf("%-5d %-20s %-30s%n",
@@ -27,7 +30,17 @@ public class DisplayFromApi {
                         pokemon.get("name").getAsString(),
                         pokemon.get("url").getAsString());
             }
+
+            // Mostrar información de navegación
+            System.out.println("\n-------------------------------------------------------------");
+            System.out.println("Pàgina: " + page);
+            System.out.println("< Anterior (p" + (page > 1 ? page - 1 : 1) + ") | Següent (p" + (page + 1) + ") >");
         }
+    }
+
+    // Mètode original per llistar tots els pokemons
+    public void listAllPokemons() {
+        listAllPokemons(1); // Mostrar la primera pàgina per defecte
     }
 
     // Mètode per mostrar detalls d'un pokemon específic

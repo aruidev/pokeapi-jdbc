@@ -1,5 +1,6 @@
 package controller;
 
+        import controller.apicontroller.CopyFromApi;
         import controller.apicontroller.DisplayFromApi;
         import controller.json.DisplayFromJson;
         import view.ViewMenu;
@@ -101,7 +102,15 @@ package controller;
                     switch (option) {
                         case 1 -> {
                             System.out.println("\nLlistat de tots els pokemons de l'API:");
-                            displayFromApi.listAllPokemons();
+                            int currentPage = 1;
+                            char option2;
+                            do {
+                                displayFromApi.listAllPokemons(currentPage);
+                                System.out.print("\nPremeu 'a' per anterior, 's' per següent, 'x' per tornar: ");
+                                option2 = scanner.next().charAt(0);
+                                if (option2 == 'a' && currentPage > 1) currentPage--;
+                                else if (option2 == 's') currentPage++;
+                            } while (option2 != 'x');
                         }
                         case 2 -> {
                             System.out.print("\nIntrodueix l'ID del Pokemon: ");
@@ -144,9 +153,33 @@ package controller;
                 } while (option != 0);
             }
 
-            // Mantener los otros métodos sin cambios
             private void handleCopyEndpointMenu() {
-                // Código existente...
+                int option;
+                do {
+                    viewMenu.displayCopyEndpointMenu();
+                    option = readOption();
+                    switch (option) {
+                        case 1 -> {
+                            System.out.println("\nIniciant còpia parcial des de l'API (només pokemons NOUS)...");
+                            System.out.print("Introdueix la ID inicial: ");
+                            int startId = readOption();
+                            System.out.print("Introdueix la ID final: ");
+                            int endId = readOption();
+                            controller.importPokemonRangeFromApi(startId, endId, false);
+                        }
+                        case 2 -> {
+                            System.out.println("\nIniciant còpia total des de l'API (TOTS els pokemons)...");
+                            System.out.println("ALERTA: Aquesta acció pot sobrescriure dades existents.");
+                            System.out.print("Introdueix la ID inicial: ");
+                            int startId = readOption();
+                            System.out.print("Introdueix la ID final: ");
+                            int endId = readOption();
+                            controller.importPokemonRangeFromApi(startId, endId, true);
+                        }
+                        case 0 -> System.out.println("Tornant al menú principal...");
+                        default -> System.out.println("Entrada no vàlida. Introdueix la opció de nou.");
+                    }
+                } while (option != 0);
             }
 
             private void handleJsonListMenu() {
