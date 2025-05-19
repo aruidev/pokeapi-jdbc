@@ -1,5 +1,6 @@
 package controller;
 
+import controller.apicontroller.CopyFromApi;
 import controller.json.CopyFromJson;
 import model.SQLite.*;
 
@@ -14,6 +15,7 @@ public class Controller {
     private SQLiteRegionDAO regionDAO;
     private SQLiteTypeDAO typeDAO;
     private CopyFromJson copyFromJson;
+    private Connection connection;
 
     public Controller(SQLiteAbilityDAO abilityDAO, SQLiteGenerationDAO generationDAO,
                      SQLiteLocationDAO locationDAO, SQLiteMoveDAO moveDAO,
@@ -27,6 +29,7 @@ public class Controller {
         this.regionDAO = regionDAO;
         this.typeDAO = typeDAO;
         this.copyFromJson = new CopyFromJson("src/json", pokemonDAO, typeDAO, abilityDAO, connection);
+        this.connection = connection;
     }
 
     // Mètode per llistar tots els pokemons
@@ -72,5 +75,12 @@ public class Controller {
     // Mètode per importar tots els pokemons des d'arxius JSON
     public void importAllPokemonsFromJson(boolean overwriteExisting) {
         copyFromJson.importAllPokemons(overwriteExisting);
+    }
+
+    // Mètode per importar pokemons desde la API
+    public void importPokemonRangeFromApi(int startId, int endId, boolean overwriteExisting) {
+        CopyFromApi copyFromApi = new CopyFromApi(pokemonDAO, typeDAO, abilityDAO, moveDAO,
+                                                 connection);
+        copyFromApi.importPokemonRange(startId, endId, overwriteExisting);
     }
 }
