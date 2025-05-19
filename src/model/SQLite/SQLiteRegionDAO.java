@@ -16,10 +16,10 @@ public class SQLiteRegionDAO implements DAO<Region, Integer> {
     @Override
     public void insertTable(Region region) {
         if (region.getNom() == null) {
-            throw new InvalidDataException("No se puede insertar una región nula o sin nombre");
+            throw new InvalidDataException("No es pot insertar una regió nul·la o sense nom");
         }
         if (region.getId_regio() <= 0) {
-            throw new InvalidDataException("No se puede insertar una región con ID menor o igual a 0");
+            throw new InvalidDataException("No es pot insertar una regió amb ID menor o igual a 0");
         }
         String sql = "INSERT INTO regions (id_regio, nom) VALUES (?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -28,9 +28,9 @@ public class SQLiteRegionDAO implements DAO<Region, Integer> {
             stmt.executeUpdate();
         } catch (SQLException e) {
             if (e.getMessage().contains("UNIQUE constraint failed")) {
-                throw new DuplicateEntryException("Ya existe una región con ID " + region.getId_regio());
+                throw new DuplicateEntryException("Ja existeix una regió amb ID " + region.getId_regio());
             }
-            throw new DataAccessException("Error during database operation", e);
+            throw new DataAccessException("Error durant la operació a la DB.", e);
         }
     }
 
@@ -47,17 +47,17 @@ public class SQLiteRegionDAO implements DAO<Region, Integer> {
                         rs.getInt("id_regio"),
                         rs.getString("nom"));
             } else {
-                throw new PropertyNotFound("No existe la región con ID " + id);
+                throw new PropertyNotFound("No existix la regió a la DB " + id);
             }
         } catch (PropertyNotFound | SQLException e) {
-            System.err.println("Error al leer la región: " + e.getMessage());
+            System.err.println("Error al llegir la DB: " + e.getMessage());
         }
     }
 
     @Override
     public void updateTable(Region region) {
         if (region.getNom() == null) {
-            throw new InvalidDataException("No se puede actualizar una región nula o sin nombre");
+            throw new InvalidDataException("No es pot actualitzar una regió nul·la o sense nom");
         }
         String sql = "UPDATE regions SET nom = ? WHERE id_regio = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -65,15 +65,15 @@ public class SQLiteRegionDAO implements DAO<Region, Integer> {
             stmt.setInt(2, region.getId_regio());
             stmt.executeUpdate();
             if (stmt.getUpdateCount() == -1) {
-                throw new PropertyNotFound("No existe la región con ID " + region.getId_regio());
+                throw new PropertyNotFound("No existeix la regió amb ID " + region.getId_regio());
             }
         } catch (PropertyNotFound e) {
-            System.err.println("Error al actualizar la región: " + e.getMessage());
+            System.err.println("Error al actualitzar la regió: " + e.getMessage());
         } catch (SQLException e) {
             if (e.getMessage().contains("UNIQUE constraint failed")) {
-                throw new DuplicateEntryException("Ya existe una región con ID " + region.getId_regio());
+                throw new DuplicateEntryException("Ja existeix la regió amb ID " + region.getId_regio());
             }
-            throw new DataAccessException("Error during database operation", e);
+            throw new DataAccessException("Error durant la operació a la DB", e);
         }
     }
 
@@ -84,15 +84,15 @@ public class SQLiteRegionDAO implements DAO<Region, Integer> {
             stmt.setInt(1, id);
             stmt.executeUpdate();
             if (stmt.getUpdateCount() == -1) {
-                throw new PropertyNotFound("No existe la región con ID " + id);
+                throw new PropertyNotFound("No existeix la regió amb ID " + id);
             }
         } catch (PropertyNotFound e) {
-            System.err.println("Error al eliminar la región: " + e.getMessage());
+            System.err.println("Error al eliminar la regió: " + e.getMessage());
         } catch (SQLException e) {
             if (e.getMessage().contains("FOREIGN KEY constraint failed")) {
-                throw new ForeignKeyConstraintException("No se puede eliminar la región con ID " + id + " porque está referenciada por otra tabla.");
+                throw new ForeignKeyConstraintException("No es pot eliminar la regió amb ID " + id + " perque està referenciant una altre taula.");
             }
-            throw new DataAccessException("Error during database operation", e);
+            throw new DataAccessException("Error durant la operació a la DB.", e);
         }
     }
 
@@ -114,7 +114,7 @@ public class SQLiteRegionDAO implements DAO<Region, Integer> {
         } catch (EmptyResultSetException e) {
             System.err.println(e.getMessage());
         } catch (SQLException e) {
-            throw new DataAccessException("Error during database operation", e);
+            throw new DataAccessException("Error durant la operació a la DB.", e);
         }
     }
 }

@@ -30,7 +30,7 @@ public class Main {
             typeDAO.setConnection(connection);
 
             Controller controller = new Controller(abilityDAO, generationDAO, locationDAO,
-                                                 moveDAO, pokemonDAO, regionDAO, typeDAO);
+                                                 moveDAO, pokemonDAO, regionDAO, typeDAO, connection);
 
             DisplayFromApi displayFromApi = new DisplayFromApi();
 
