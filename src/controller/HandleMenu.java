@@ -101,7 +101,15 @@ package controller;
                     switch (option) {
                         case 1 -> {
                             System.out.println("\nLlistat de tots els pokemons de l'API:");
-                            displayFromApi.listAllPokemons();
+                            int currentPage = 1;
+                            char option2;
+                            do {
+                                displayFromApi.listAllPokemons(currentPage);
+                                System.out.print("\nPremeu 'a' per anterior, 's' per següent, 'x' per tornar: ");
+                                option2 = scanner.next().charAt(0);
+                                if (option2 == 'a' && currentPage > 1) currentPage--;
+                                else if (option2 == 's') currentPage++;
+                            } while (option2 != 'x');
                         }
                         case 2 -> {
                             System.out.print("\nIntrodueix l'ID del Pokemon: ");
