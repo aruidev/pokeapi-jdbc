@@ -1,0 +1,22 @@
+{
+  "id": 1,
+  "name": "kanto",
+  "locations": [
+    {
+      "name": "celadon-city",
+      "url": "https://pokeapi.co/api/v2/location/67/"
+    },
+    {
+      "name": "cerulean-city",
+      "url": "https://pokeapi.co/api/v2/location/68/"
+    },
+    {
+      "name": "lavender-town",
+      "url": "https://pokeapi.co/api/v2/location/70/"
+    }
+  ],
+  "main_generation": {
+    "name": "generation-i",
+    "url": "https://pokeapi.co/api/v2/generation/1/"
+  }
+}

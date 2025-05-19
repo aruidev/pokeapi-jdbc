@@ -1,0 +1,14 @@
+{
+  "id": 1,
+  "name": "canalave-city",
+  "region": {
+    "name": "sinnoh",
+    "url": "https://pokeapi.co/api/v2/region/4/"
+  },
+  "areas": [
+    {
+      "name": "canalave-city-area",
+      "url": "https://pokeapi.co/api/v2/location-area/1/"
+    }
+  ]
+}

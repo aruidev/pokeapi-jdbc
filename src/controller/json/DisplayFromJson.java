@@ -24,7 +24,7 @@ public class DisplayFromJson {
             return;
         }
 
-        System.out.printf("%-5s %-20s %-10s %-10s%n", "ID", "Nom", "Altura", "Peso");
+        System.out.printf("%-5s %-20s %-10s %-10s%n", "ID", "Nom", "Altura", "Pes");
         System.out.println("--------------------------------------------------");
 
         for (String file : files) {

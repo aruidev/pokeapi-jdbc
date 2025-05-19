@@ -122,7 +122,7 @@ public class JsonFileReader {
     }
 
     /**
-     * Obté tots els arxius pokemon d'un directori
+     * Obté tots els arxius json de pokemon d'un directori
      */
     public String[] listAllPokemonFiles(String basePath) {
         try (Stream<Path> pathStream = Files.list(Paths.get(basePath))) {
