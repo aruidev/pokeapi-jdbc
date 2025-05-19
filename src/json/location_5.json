@@ -1,0 +1,14 @@
+{
+  "id": 5,
+  "name": "viridian-city",
+  "region": {
+    "name": "kanto",
+    "url": "https://pokeapi.co/api/v2/region/1/"
+  },
+  "areas": [
+    {
+      "name": "viridian-city-area",
+      "url": "https://pokeapi.co/api/v2/location-area/10/"
+    }
+  ]
+}

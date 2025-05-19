@@ -1,0 +1,22 @@
+{
+  "id": 2,
+  "name": "generation-ii",
+  "main_region": {
+    "name": "johto",
+    "url": "https://pokeapi.co/api/v2/region/2/"
+  },
+  "pokemon_species": [
+    {
+      "name": "chikorita",
+      "url": "https://pokeapi.co/api/v2/pokemon-species/152/"
+    },
+    {
+      "name": "cyndaquil",
+      "url": "https://pokeapi.co/api/v2/pokemon-species/155/"
+    },
+    {
+      "name": "totodile",
+      "url": "https://pokeapi.co/api/v2/pokemon-species/158/"
+    }
+  ]
+}

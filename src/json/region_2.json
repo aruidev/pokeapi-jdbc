@@ -1,0 +1,22 @@
+{
+  "id": 2,
+  "name": "johto",
+  "locations": [
+    {
+      "name": "new-bark-town",
+      "url": "https://pokeapi.co/api/v2/location/144/"
+    },
+    {
+      "name": "violet-city",
+      "url": "https://pokeapi.co/api/v2/location/150/"
+    },
+    {
+      "name": "ecruteak-city",
+      "url": "https://pokeapi.co/api/v2/location/152/"
+    }
+  ],
+  "main_generation": {
+    "name": "generation-ii",
+    "url": "https://pokeapi.co/api/v2/generation/2/"
+  }
+}

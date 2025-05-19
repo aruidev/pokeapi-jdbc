@@ -1,0 +1,14 @@
+{
+  "id": 9,
+  "name": "static",
+  "effect_entries": [
+    {
+      "effect": "When a Pokémon with this ability is hit by a move that makes physical contact, there is a 30% chance that the attacking Pokémon will become paralyzed.",
+      "language": {
+        "name": "en",
+        "url": "https://pokeapi.co/api/v2/language/9/"
+      },
+      "short_effect": "Has a 30% chance of paralyzing attacking Pokémon on contact."
+    }
+  ]
+}
