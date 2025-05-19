@@ -16,22 +16,22 @@ public class SQLiteMoveDAO implements DAO<Move, Integer> {
     @Override
     public void insertTable(Move move) {
         if (move.getNom() == null) {
-            throw new InvalidDataException("No se puede insertar un movimiento nulo o sin nombre");
+            throw new InvalidDataException("No es pot insertar un moviment nul o sense nom");
         }
         if (move.getId_move() <= 0) {
-            throw new InvalidDataException("No se puede insertar un movimiento con ID menor o igual a 0");
+            throw new InvalidDataException("No es pot insertar un moviment amb ID menor o igual a 0");
         }
         if (move.getPoder() <= 0) {
-            throw new InvalidDataException("No se puede insertar un movimiento con poder menor o igual a 0");
+            throw new InvalidDataException("No es pot insertar un moviment amb poder menor o igual a 0");
         }
         if (move.getPrecisio() <= 0) {
-            throw new InvalidDataException("No se puede insertar un movimiento con precisión menor o igual a 0");
+            throw new InvalidDataException("No es pot insertar un moviment amb precisió menor o igual a 0");
         }
         if (move.getPp() <= 0) {
-            throw new InvalidDataException("No se puede insertar un movimiento con PP menor o igual a 0");
+            throw new InvalidDataException("No es pot insertar un moviment amb PP menor o igual a 0");
         }
         if (move.getTipus() == null) {
-            throw new InvalidDataException("No se puede insertar un movimiento con tipo nulo");
+            throw new InvalidDataException("No es pot insertar un moviment amb tipus nul");
         }
         String sql = "INSERT INTO moviments (id_moviment, nom, poder, precisio, pp, tipus) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -44,9 +44,9 @@ public class SQLiteMoveDAO implements DAO<Move, Integer> {
             stmt.executeUpdate();
         } catch (SQLException e) {
             if (e.getMessage().contains("UNIQUE constraint failed")) {
-                throw new DuplicateEntryException("Ya existe un movimiento con ID " + move.getId_move());
+                throw new DuplicateEntryException("Ja existeix un moviment amb ID " + move.getId_move());
             }
-            throw new DataAccessException("Error during database operation", e);
+            throw new DataAccessException("Error durant la operació a la DB", e);
         }
     }
 
