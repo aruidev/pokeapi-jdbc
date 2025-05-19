@@ -233,27 +233,21 @@ public class CopyFromJson {
     }
 
     /**
-     * Extreu la ID d'un URL
+     * Extreu la ID d'un URL utilitzant una expressió regular
      */
     private int extractIdFromUrl(String url) {
         try {
-            String[] parts = url.split("/");
-            // Busquem valor numèric a l'URL (penúltim element)
-            for (int i = parts.length - 2; i >= 0; i--) {
-                if (!parts[i].isEmpty()) {
-                    try {
-                        return Integer.parseInt(parts[i]);
-                    } catch (NumberFormatException e) {
-                        // Si no es un número, continua buscant
-                        continue;
-                    }
-                }
+            // Utilitzem expressió regular per extreure números entre barres al final
+            java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("/([0-9]+)/?$");
+            java.util.regex.Matcher matcher = pattern.matcher(url);
+            if (matcher.find()) {
+                return Integer.parseInt(matcher.group(1));
             }
-            // Si no trobem un id vàlid tirem exception
-            System.err.println("No se pudo extraer ID de la URL: " + url);
+            // Si no trobem un patró vàlid
+            System.err.println("No s'ha pogut extreure la ID de la URL: " + url);
             return 1;
         } catch (Exception e) {
-            System.err.println("Error al procesar URL " + url + ": " + e.getMessage());
+            System.err.println("Error al processar URL " + url + ": " + e.getMessage());
             return 1;
         }
     }
