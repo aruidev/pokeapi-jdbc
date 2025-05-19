@@ -152,7 +152,7 @@ package controller;
             private void handleJsonListMenu() {
                 int option;
                 do {
-                    viewMenu.displayPokemonListMenu(); // Reutilizamos el mismo menú
+                    viewMenu.displayPokemonListMenu();
                     option = readOption();
                     switch (option) {
                         case 1 -> {
