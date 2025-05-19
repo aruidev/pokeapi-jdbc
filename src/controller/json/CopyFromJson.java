@@ -40,11 +40,11 @@ public class CopyFromJson {
         String[] files = jsonFileReader.listAllPokemonFiles(basePath);
 
         if (files.length == 0) {
-            System.out.println("No se han encontrado archivos JSON de Pokémon en " + basePath);
+            System.out.println("No s'han trobat arxius JSON a " + basePath);
             return;
         }
 
-        System.out.println("Iniciando importación de datos desde JSON...");
+        System.out.println("Iniciant importació de dades des d'els arxius JSON...");
         int countAdded = 0;
         int countSkipped = 0;
 
@@ -58,7 +58,7 @@ public class CopyFromJson {
             boolean exists = checkIfPokemonExists(id);
 
             if (exists && !overwriteExisting) {
-                System.out.println("Omitiendo Pokémon #" + id + " (ya existe)");
+                System.out.println("Omitint pokemon #" + id + " (ja existeix)");
                 countSkipped++;
                 continue;
             }
@@ -67,9 +67,9 @@ public class CopyFromJson {
             countAdded++;
         }
 
-        System.out.println("Importación completada:");
-        System.out.println("Pokémon añadidos/actualizados: " + countAdded);
-        System.out.println("Pokémon omitidos: " + countSkipped);
+        System.out.println("Importació completada:");
+        System.out.println("Pokemons afegits/actualitzats: " + countAdded);
+        System.out.println("Pokemons omitits (ja existien: " + countSkipped);
     }
 
     /**
@@ -236,7 +236,25 @@ public class CopyFromJson {
      * Extreu la ID d'un URL
      */
     private int extractIdFromUrl(String url) {
-        String[] parts = url.split("/");
-        return Integer.parseInt(parts[parts.length - 2]);
+        try {
+            String[] parts = url.split("/");
+            // Busquem valor numèric a l'URL (penúltim element)
+            for (int i = parts.length - 2; i >= 0; i--) {
+                if (!parts[i].isEmpty()) {
+                    try {
+                        return Integer.parseInt(parts[i]);
+                    } catch (NumberFormatException e) {
+                        // Si no es un número, continua buscant
+                        continue;
+                    }
+                }
+            }
+            // Si no trobem un id vàlid tirem exception
+            System.err.println("No se pudo extraer ID de la URL: " + url);
+            return 1;
+        } catch (Exception e) {
+            System.err.println("Error al procesar URL " + url + ": " + e.getMessage());
+            return 1;
+        }
     }
 }

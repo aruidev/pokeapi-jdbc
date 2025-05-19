@@ -207,12 +207,12 @@ package controller;
                     option = readOption();
                     switch (option) {
                         case 1 -> {
-                            System.out.println("\nIniciando copia parcial desde JSON (solo pokémon nuevos)...");
-                            controller.importAllPokemonsFromJson(false); // false = no sobrescribir existentes
+                            System.out.println("\nIniciant còpia parcial des de JSON (només pokemons NOUS)...");
+                            controller.importAllPokemonsFromJson(false);
                         }
                         case 2 -> {
-                            System.out.println("\nIniciando copia total desde JSON (todos los pokémon)...");
-                            controller.importAllPokemonsFromJson(true); // true = sobrescribir existentes
+                            System.out.println("\nIniciant còpia total des de JSON (TOTS els pokemons)...");
+                            controller.importAllPokemonsFromJson(true);
                         }
                         case 0 -> System.out.println("Tornant al menú principal...");
                         default -> System.out.println("Entrada no vàlida. Introdueix la opció de nou.");
