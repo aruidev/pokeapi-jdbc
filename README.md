@@ -112,7 +112,13 @@ There are three types of controllers for displaying information:
 - `DisplayFromApi`: For API data.
 - `DisplayFromJson`: For data from local JSON files.
 
-#### 5. Menu Handling
+#### 5. Copy and Update Controllers
+
+Following the same structure, there are specific controllers for Copy and Update operations:
+- `CopyFromApi`: For API data.
+- `CopyFromJson`: For data from local JSON files.
+
+#### 6. Menu Handling
 
 The `HandleMenu` class manages user interaction through menus and submenus that redirect to the corresponding functionalities.
 
