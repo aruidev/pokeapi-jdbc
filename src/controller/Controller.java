@@ -1,6 +1,9 @@
 package controller;
 
+import controller.json.CopyFromJson;
 import model.SQLite.*;
+
+import java.sql.Connection;
 
 public class Controller {
     private SQLiteAbilityDAO abilityDAO;
@@ -10,11 +13,12 @@ public class Controller {
     private SQLitePokemonDAO pokemonDAO;
     private SQLiteRegionDAO regionDAO;
     private SQLiteTypeDAO typeDAO;
+    private CopyFromJson copyFromJson;
 
     public Controller(SQLiteAbilityDAO abilityDAO, SQLiteGenerationDAO generationDAO,
                      SQLiteLocationDAO locationDAO, SQLiteMoveDAO moveDAO,
                      SQLitePokemonDAO pokemonDAO, SQLiteRegionDAO regionDAO,
-                     SQLiteTypeDAO typeDAO) {
+                     SQLiteTypeDAO typeDAO, Connection connection) {
         this.abilityDAO = abilityDAO;
         this.generationDAO = generationDAO;
         this.locationDAO = locationDAO;
@@ -22,6 +26,7 @@ public class Controller {
         this.pokemonDAO = pokemonDAO;
         this.regionDAO = regionDAO;
         this.typeDAO = typeDAO;
+        this.copyFromJson = new CopyFromJson("src/json", pokemonDAO, typeDAO, abilityDAO, connection);
     }
 
     // Mètode per llistar tots els pokemons
@@ -62,5 +67,10 @@ public class Controller {
     // Mètode per mostrar detalls d'una regió
     public void showRegionDetails(int id) {
         regionDAO.readTable(id);
+    }
+
+    // Mètode per importar tots els pokemons des d'arxius JSON
+    public void importAllPokemonsFromJson(boolean overwriteExisting) {
+        copyFromJson.importAllPokemons(overwriteExisting);
     }
 }

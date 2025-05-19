@@ -201,7 +201,23 @@ package controller;
             }
 
             private void handleCopyJsonMenu() {
-                // Código existente...
+                int option;
+                do {
+                    viewMenu.displayCopyJsonMenu();
+                    option = readOption();
+                    switch (option) {
+                        case 1 -> {
+                            System.out.println("\nIniciando copia parcial desde JSON (solo pokémon nuevos)...");
+                            controller.importAllPokemonsFromJson(false); // false = no sobrescribir existentes
+                        }
+                        case 2 -> {
+                            System.out.println("\nIniciando copia total desde JSON (todos los pokémon)...");
+                            controller.importAllPokemonsFromJson(true); // true = sobrescribir existentes
+                        }
+                        case 0 -> System.out.println("Tornant al menú principal...");
+                        default -> System.out.println("Entrada no vàlida. Introdueix la opció de nou.");
+                    }
+                } while (option != 0);
             }
 
             private int readOption() {
