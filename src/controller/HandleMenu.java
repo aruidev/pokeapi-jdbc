@@ -32,6 +32,7 @@ package controller;
                         case 5 -> handleJsonListMenu();
                         case 6 -> handleModifyFromJson();
                         case 7 -> handleCopyJsonMenu();
+                        case 8 -> handleUpdateLogsMenu();
                         case 0 -> System.out.println("Sortint......");
                         default -> System.out.println("Entrada no vàlida. Introdueix la opció de nou.");
                     }
@@ -284,6 +285,22 @@ package controller;
                     System.out.println("Modificant pokemon a la DB local amb les dades del JSON...");
                     controller.importSinglePokemonFromJson(id, true);
                 }
+            }
+
+            private void handleUpdateLogsMenu() {
+                int option;
+                do {
+                    viewMenu.displayUpdateLogMenu();
+                    option = readOption();
+                    switch (option) {
+                        case 1 -> {
+                            System.out.println("\nLlistat de tots els logs d'actualització:");
+                            controller.printAllUpdateLogs();
+                        }
+                        case 0 -> System.out.println("Tornant al menú principal...");
+                        default -> System.out.println("Entrada no vàlida. Introdueix la opció de nou.");
+                    }
+                } while (option != 0);
             }
 
             private int readOption() {
