@@ -73,6 +73,34 @@ public class CopyFromJson {
     }
 
     /**
+     * Importa un pokemon específic pel seu ID des d'arxiu JSON
+     * @param id ID del pokemon a importar
+     * @param overwriteExisting si es true, sobreescriu el pokemon si ja existeix
+     * @return true si s'ha importat correctament, false en cas contrari
+     */
+    public boolean importSinglePokemonFromJson(int id, boolean overwriteExisting) {
+        System.out.println("Iniciant importació del pokemon #" + id + " des de JSON...");
+
+        JsonObject pokemonJson = jsonFileReader.getPokemonInfo(basePath, id);
+
+        if (pokemonJson == null) {
+            System.out.println("No s'ha trobat l'arxiu JSON per al pokemon #" + id);
+            return false;
+        }
+
+        boolean exists = checkIfPokemonExists(id);
+
+        if (exists && !overwriteExisting) {
+            System.out.println("Omitint pokemon #" + id + " (ja existeix)");
+            return false;
+        }
+
+        importPokemon(pokemonJson, exists);
+        System.out.println("Pokemon #" + id + " importat correctament");
+        return true;
+    }
+
+    /**
      * Importa un pokemon específic desde JSON
      */
     private void importPokemon(JsonObject pokemonJson, boolean exists) {

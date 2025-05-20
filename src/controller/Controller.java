@@ -77,6 +77,11 @@ public class Controller {
         copyFromJson.importAllPokemons(overwriteExisting);
     }
 
+    // Mètode per importar un pokemon des d'un arxiu JSON
+    public void importSinglePokemonFromJson(int id, boolean overwriteExisting) {
+        copyFromJson.importSinglePokemonFromJson(id, overwriteExisting);
+    }
+
     // Mètode per importar pokemons desde la API
     public void importPokemonRangeFromApi(int startId, int endId, boolean overwriteExisting) {
         CopyFromApi copyFromApi = new CopyFromApi(pokemonDAO, typeDAO, abilityDAO, moveDAO,

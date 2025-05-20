@@ -27,14 +27,10 @@ package controller;
                     switch (option) {
                         case 1 -> handlePokemonListMenu();
                         case 2 -> handleEndpointMenu();
-                        case 3 -> {
-                            // Lógica para modificar pokemons según el Endpoint
-                        }
+                        case 3 -> handleModifyFromApi();
                         case 4 -> handleCopyEndpointMenu();
                         case 5 -> handleJsonListMenu();
-                        case 6 -> {
-                            // Lógica para modificar pokemons según el JSON
-                        }
+                        case 6 -> handleModifyFromJson();
                         case 7 -> handleCopyJsonMenu();
                         case 0 -> System.out.println("Sortint......");
                         default -> System.out.println("Entrada no vàlida. Introdueix la opció de nou.");
@@ -254,6 +250,40 @@ package controller;
                         default -> System.out.println("Entrada no vàlida. Introdueix la opció de nou.");
                     }
                 } while (option != 0);
+            }
+
+            private void handleModifyFromApi() {
+                System.out.println("Introdueix la ID del pokemon:");
+                int id = readOption();
+                System.out.println();
+                System.out.println("Detalls del pokemon a la DB local:");
+                controller.showPokemonDetails(id);
+                System.out.println();
+                System.out.println("Detalls del pokemon a l'API:");
+                displayFromApi.showPokemonDetails(id);
+                System.out.println("Vols modificar el pokemon a la DB local amb les dades de l'API? (s/n)");
+                if (scanner.next().equalsIgnoreCase("s")) {
+                    System.out.println("Modificant pokemon a la DB local amb les dades de la API...");
+                    controller.importPokemonRangeFromApi(id, id, true);
+                } else {
+                    System.out.println("No s'ha realitzat cap modificació.");
+                }
+            }
+
+            private void handleModifyFromJson() {
+                System.out.println("Introdueix la ID del pokemon:");
+                int id = readOption();
+                System.out.println();
+                System.out.println("Detalls del pokemon a la DB local:");
+                controller.showPokemonDetails(id);
+                System.out.println();
+                System.out.println("Detalls del pokemon al JSON:");
+                displayFromJson.showPokemonDetails(id);
+                System.out.println("Vols modificar el pokemon a la DB local amb les dades del JSON? (s/n)");
+                if (scanner.next().equalsIgnoreCase("s")) {
+                    System.out.println("Modificant pokemon a la DB local amb les dades del JSON...");
+                    controller.importSinglePokemonFromJson(id, true);
+                }
             }
 
             private int readOption() {
