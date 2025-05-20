@@ -105,22 +105,37 @@ The API client (`PokeApiClient`) uses Java's `HttpClient` to make requests to th
 
 The `JsonFileReader` class handles reading local JSON files and converts them to `JsonObject` objects using GSON.
 
-#### 4. Display Controllers
+#### 4. Controllers
 
-There are three types of controllers for displaying information:
-- `Controller`: For local database data.
+- `Controller`: Main controller for managing interactions between the local DB, the online API and the external JSON files.
+
+##### a. Display Controllers
+
+There are two types of controllers for displaying information:
 - `DisplayFromApi`: For API data.
 - `DisplayFromJson`: For data from local JSON files.
 
-#### 5. Copy and Update Controllers
+##### b. Copy Controllers
 
-Following the same structure, there are specific controllers for Copy and Update operations:
+Following the same structure, there are specific controllers for Copy operations:
 - `CopyFromApi`: For API data.
 - `CopyFromJson`: For data from local JSON files.
 
 #### 6. Menu Handling
 
 The `HandleMenu` class manages user interaction through menus and submenus that redirect to the corresponding functionalities.
+
+#### 7. Update Logs
+
+The UpdateLog related classes are used to track changes made to the pokemons table. Each time a row in the pokemons table is inserted, updated, or deleted, a new entry is automatically added to the `update_logs` table in de PokeApiDB with the following information:
+
+- Table name where the change occurred (pokemons)
+- Action performed (INSERT, UPDATE, or DELETE)
+- Row ID of the affected entry
+- Timestamp (changed_at) of when the change occurred
+
+#### How it works
+SQLite triggers are used to automatically insert log entries when changes occur in the pokemons table.
 
 ### Exception Handling
 
