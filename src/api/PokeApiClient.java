@@ -134,4 +134,16 @@ public class PokeApiClient {
             return null;
         }
     }
+
+    /**
+     * Obté informació d'una espècie de Pokémon per ID
+     */
+    public JsonObject getPokemonSpeciesInfo(int id) {
+        try {
+            return makeGetRequest("pokemon-species/" + id);
+        } catch (Exception e) {
+            System.err.println("Error al obtenir informació de l'espècie de pokemon: " + e.getMessage());
+            return null;
+        }
+    }
 }
