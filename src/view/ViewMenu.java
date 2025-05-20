@@ -12,6 +12,7 @@ public class ViewMenu {
         System.out.println("5. Mostrar contingut del JSON");
         System.out.println("6. Modificar pokemons segons el JSON");
         System.out.println("7. Còpia de les dades obtingudes del JSON");
+        System.out.println("8. Mostrar logs d'actualització");
         System.out.println("0. Sortir");
         System.out.println("--------------------------------");
         System.out.print("Selecciona una opció: ");
@@ -56,6 +57,16 @@ public class ViewMenu {
                 "\n(Copiar només aquells pokemons que no existeixen a la DB)");
         System.out.println("2. Còpia total de les dades obtingudes del JSON" +
                 "\n(Copiar tots els pokemons del JSON a la DB)");
+        System.out.println("0. Tornar al menú principal");
+        System.out.println("--------------------------------");
+        System.out.print("Selecciona una opció: ");
+    }
+
+    public void displayUpdateLogMenu() {
+        System.out.println("\n--------------------------------");
+        System.out.println("Llistat de logs d'actualització:");
+        System.out.println();
+        System.out.println("1. Llistar tots els logs d'actualització");
         System.out.println("0. Tornar al menú principal");
         System.out.println("--------------------------------");
         System.out.print("Selecciona una opció: ");

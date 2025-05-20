@@ -1,10 +1,17 @@
 package controller;
 
+import Exceptions.DBNotFound;
+import Exceptions.DataAccessException;
+import Exceptions.PropertyNotFound;
 import controller.apicontroller.CopyFromApi;
 import controller.json.CopyFromJson;
 import model.SQLite.*;
+import model.SQLite.updateLogs.*;
+import model.constructor.UpdateLog;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 public class Controller {
     private SQLiteAbilityDAO abilityDAO;
@@ -16,6 +23,7 @@ public class Controller {
     private SQLiteTypeDAO typeDAO;
     private CopyFromJson copyFromJson;
     private Connection connection;
+    private UpdateLogReader updateLogReader;
 
     public Controller(SQLiteAbilityDAO abilityDAO, SQLiteGenerationDAO generationDAO,
                      SQLiteLocationDAO locationDAO, SQLiteMoveDAO moveDAO,
@@ -30,6 +38,7 @@ public class Controller {
         this.typeDAO = typeDAO;
         this.copyFromJson = new CopyFromJson("src/json", pokemonDAO, typeDAO, abilityDAO, connection);
         this.connection = connection;
+        this.updateLogReader = new UpdateLogReader(connection);
     }
 
     // Mètode per llistar tots els pokemons
@@ -77,10 +86,29 @@ public class Controller {
         copyFromJson.importAllPokemons(overwriteExisting);
     }
 
+    // Mètode per importar un pokemon des d'un arxiu JSON
+    public void importSinglePokemonFromJson(int id, boolean overwriteExisting) {
+        copyFromJson.importSinglePokemonFromJson(id, overwriteExisting);
+    }
+
     // Mètode per importar pokemons desde la API
     public void importPokemonRangeFromApi(int startId, int endId, boolean overwriteExisting) {
         CopyFromApi copyFromApi = new CopyFromApi(pokemonDAO, typeDAO, abilityDAO, moveDAO,
                                                  connection);
         copyFromApi.importPokemonRange(startId, endId, overwriteExisting);
+    }
+
+    // Mètode per accedir als logs
+    public List<UpdateLog> getAllUpdateLogs() {
+        try {
+            return updateLogReader.fetchAllLogs();
+        } catch (DBNotFound | PropertyNotFound | DataAccessException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Mètode per mostrar els logs
+    public void printAllUpdateLogs() {
+        updateLogReader.printLogs();
     }
 }
