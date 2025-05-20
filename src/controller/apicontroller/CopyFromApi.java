@@ -148,14 +148,57 @@ public class CopyFromApi {
                 JsonObject typeJson = apiClient.getTypeInfo(typeId);
                 if (typeJson != null) {
                     String typeName = typeJson.get("name").getAsString();
-                    String typeRelations = typeJson.has("damage_relations") ?
-                            typeJson.get("damage_relations").toString() : "";
+                    // Procesar las relaciones de daño de forma legible
+                    String typeRelations = formatDamageRelations(typeJson.getAsJsonObject("damage_relations"));
 
                     Type type = new Type(typeId, typeName, typeRelations);
                     typeDAO.insertTable(type);
                 }
             }
         }
+    }
+
+    // Mètode per formatar el String retornat de "damage_relations" i passar-lo a un String llegible
+    private String formatDamageRelations(JsonObject damageRelations) {
+        StringBuilder sb = new StringBuilder();
+
+        // Doble daño
+        sb.append("Doble dany a: ");
+        JsonArray doubleDamageTo = damageRelations.getAsJsonArray("double_damage_to");
+        if (doubleDamageTo.size() > 0) {
+            for (int i = 0; i < doubleDamageTo.size(); i++) {
+                if (i > 0) sb.append(", ");
+                sb.append(doubleDamageTo.get(i).getAsJsonObject().get("name").getAsString());
+            }
+        } else {
+            sb.append("Ningún");
+        }
+
+        // Doble daño de
+        sb.append("\nDoble dany de: ");
+        JsonArray doubleDamageFrom = damageRelations.getAsJsonArray("double_damage_from");
+        if (doubleDamageFrom.size() > 0) {
+            for (int i = 0; i < doubleDamageFrom.size(); i++) {
+                if (i > 0) sb.append(", ");
+                sb.append(doubleDamageFrom.get(i).getAsJsonObject().get("name").getAsString());
+            }
+        } else {
+            sb.append("Ningún");
+        }
+
+        // Mitad de daño a
+        sb.append("\nMeitat de dany a: ");
+        JsonArray halfDamageTo = damageRelations.getAsJsonArray("half_damage_to");
+        if (halfDamageTo.size() > 0) {
+            for (int i = 0; i < halfDamageTo.size(); i++) {
+                if (i > 0) sb.append(", ");
+                sb.append(halfDamageTo.get(i).getAsJsonObject().get("name").getAsString());
+            }
+        } else {
+            sb.append("Ningún");
+        }
+
+        return sb.toString();
     }
 
     /**
@@ -181,9 +224,7 @@ public class CopyFromApi {
                         for (JsonElement effectElem : effects) {
                             JsonObject effectObj = effectElem.getAsJsonObject();
                             if (effectObj.getAsJsonObject("language").get("name").getAsString().equals("en")) {
-                                effect = effectObj.has("short_effect") ?
-                                        effectObj.get("short_effect").getAsString() :
-                                        effectObj.get("effect").getAsString();
+                                effect = effectObj.get("effect").getAsString();
                                 break;
                             }
                         }

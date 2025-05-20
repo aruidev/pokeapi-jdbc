@@ -46,8 +46,7 @@ package controller;
                     option = readOption();
                     switch (option) {
                         case 1 -> {
-                            System.out.println("\nLlistat de tots els pokemons:");
-                            controller.listAllPokemons();
+                            handleListAllMenu();
                         }
                         case 2 -> {
                             System.out.print("\nIntrodueix l'ID del Pokemon: ");
@@ -297,6 +296,25 @@ package controller;
                             System.out.println("\nLlistat de tots els logs d'actualització:");
                             controller.printAllUpdateLogs();
                         }
+                        case 0 -> System.out.println("Tornant al menú principal...");
+                        default -> System.out.println("Entrada no vàlida. Introdueix la opció de nou.");
+                    }
+                } while (option != 0);
+            }
+
+            private void handleListAllMenu() {
+                int option;
+                do {
+                    viewMenu.displayListAllMenu();
+                    option = readOption();
+                    switch (option) {
+                        case 1 -> controller.listAllPokemons();
+                        case 2 -> controller.listAllTypes();
+                        case 3 -> controller.listAllAbilities();
+                        case 4 -> controller.listAllMoves();
+                        case 5 -> controller.listAllGenerations();
+                        case 6 -> controller.listAllLocations();
+                        case 7 -> controller.listAllRegions();
                         case 0 -> System.out.println("Tornant al menú principal...");
                         default -> System.out.println("Entrada no vàlida. Introdueix la opció de nou.");
                     }
