@@ -99,8 +99,19 @@ public class CopyFromApi {
             importTypesFromPokemon(pokemonJson);
         }
 
-        // Valor por defecte generació
-        int genId = 1;
+        // Obtenir generació del pokemon
+        int genId = 1; // Valor por defecte
+        if (pokemonJson.has("species")) {
+            String speciesUrl = pokemonJson.getAsJsonObject("species").get("url").getAsString();
+            int speciesId = extractIdFromUrl(speciesUrl);
+
+            // Obtenir informació de l'espècie des de la API
+            JsonObject speciesJson = apiClient.getPokemonSpeciesInfo(speciesId);
+            if (speciesJson != null && speciesJson.has("generation")) {
+                String generationUrl = speciesJson.getAsJsonObject("generation").get("url").getAsString();
+                genId = extractIdFromUrl(generationUrl);
+            }
+        }
 
         // Crear objecte pokemon i insertar/actualitzar
         Pokemon pokemon = new Pokemon(id, name, weight, height, genId, typeId);
