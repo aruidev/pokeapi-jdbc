@@ -46,6 +46,36 @@ public class Controller {
         pokemonDAO.readAll();
     }
 
+    // Mètode per llistar tots els tipus
+    public void listAllTypes() {
+        typeDAO.readAll();
+    }
+
+    // Mètode per llistar totes les habilitats
+    public void listAllAbilities() {
+        abilityDAO.readAll();
+    }
+
+    // Mètode per llistar tots els moviments
+    public void listAllMoves() {
+        moveDAO.readAll();
+    }
+
+    // Mètode per llistar totes les generacions
+    public void listAllGenerations() {
+        generationDAO.readAll();
+    }
+
+    // Mètode per llistar totes les localitzacions
+    public void listAllLocations() {
+        locationDAO.readAll();
+    }
+
+    // Mètode per llistar totes les regions
+    public void listAllRegions() {
+        regionDAO.readAll();
+    }
+
     // Mètode per mostrar detalls d'un pokemon
     public void showPokemonDetails(int id) {
         pokemonDAO.readTable(id);

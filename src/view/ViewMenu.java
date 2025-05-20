@@ -22,7 +22,7 @@ public class ViewMenu {
         System.out.println("\n--------------------------------");
         System.out.println("Llistat de pokemons:");
         System.out.println();
-        System.out.println("1. Llistar tots els pokemons");
+        System.out.println("1. Llistar tot");
         System.out.println("Veure detalls de...");
         System.out.println("2. ...pokemon");
         System.out.println("3. ...habilitat");
@@ -67,6 +67,22 @@ public class ViewMenu {
         System.out.println("Llistat de logs d'actualització:");
         System.out.println();
         System.out.println("1. Llistar tots els logs d'actualització");
+        System.out.println("0. Tornar al menú principal");
+        System.out.println("--------------------------------");
+        System.out.print("Selecciona una opció: ");
+    }
+
+    public void displayListAllMenu() {
+        System.out.println("\n--------------------------------");
+        System.out.println("Llistat de pokemons:");
+        System.out.println();
+        System.out.println("1. Llistar tots els pokemons");
+        System.out.println("2. Llistar tots els tipus");
+        System.out.println("3. Llistar totes les habilitats");
+        System.out.println("4. Llistar tots els moviments");
+        System.out.println("5. Llistar totes les generacions");
+        System.out.println("6. Llistar totes les localitzacions");
+        System.out.println("7. Llistar totes les regions");
         System.out.println("0. Tornar al menú principal");
         System.out.println("--------------------------------");
         System.out.print("Selecciona una opció: ");
