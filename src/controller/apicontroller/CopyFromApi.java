@@ -162,7 +162,7 @@ public class CopyFromApi {
     private String formatDamageRelations(JsonObject damageRelations) {
         StringBuilder sb = new StringBuilder();
 
-        // Doble daño
+        // Doble daño a
         sb.append("Doble dany a: ");
         JsonArray doubleDamageTo = damageRelations.getAsJsonArray("double_damage_to");
         if (doubleDamageTo.size() > 0) {
@@ -174,8 +174,10 @@ public class CopyFromApi {
             sb.append("Ningún");
         }
 
+        sb.append("; ");
+
         // Doble daño de
-        sb.append("\nDoble dany de: ");
+        sb.append("Doble dany de: ");
         JsonArray doubleDamageFrom = damageRelations.getAsJsonArray("double_damage_from");
         if (doubleDamageFrom.size() > 0) {
             for (int i = 0; i < doubleDamageFrom.size(); i++) {
@@ -186,8 +188,10 @@ public class CopyFromApi {
             sb.append("Ningún");
         }
 
+        sb.append("; ");
+
         // Mitad de daño a
-        sb.append("\nMeitat de dany a: ");
+        sb.append("Meitat de dany a: ");
         JsonArray halfDamageTo = damageRelations.getAsJsonArray("half_damage_to");
         if (halfDamageTo.size() > 0) {
             for (int i = 0; i < halfDamageTo.size(); i++) {
